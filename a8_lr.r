@@ -34,9 +34,13 @@ m = m[m$imdb_score>2.5,]
 genres = unlist(strsplit(m$genres,"|",fixed = T))
 ugenres  = data.frame(g = unique(genres), imp = 0,stringsAsFactors =  F)
 for (i in 1:nrow(ugenres)) {
+ #Compute tf-idf score/importance of each genre. 
+ #For example, action is pretty generic and does not provide much information about a movie's quality
+ #But 'Space' genre is much more specific
   ugenres$imp[i] = 1/length(grep(ugenres$g[i], genres))
 }
 newgenre = function(genres, ugenres) {
+  #Return the highest genre score. A movie can belong to multiple genres.
   g2 = as.character(0)
   for (i in 1:length(genres)) {
     g = unlist(strsplit(genres[i], split="|",fixed = T))
@@ -51,7 +55,7 @@ m = merge(m, dirnummovies, by.x = "director_name", by.y = "director_name", all.x
 m$title_decade = (round(m$title_year/10))
 m$newg = newgenre(m$genres, ugenres)
 m$roi = m$gross/m$budget
-m$language[m$language!="English"] = "Non-English"
+m$language[m$language!="English"] = "Non-English"   #Only keep two values for language : English and Non-English
 
 #Test each variable
 h = cor(m$title_year, m$imdb_score)
