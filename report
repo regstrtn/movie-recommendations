@@ -1,0 +1,46 @@
+IMDB Movie dataset
+Given a corpus of 5000+ movies from IMDB website, containing 28 variables for 5043 movies, spanning across 100 years in 66 countries. There are 2399 unique director names, and thousands of actors/actresses.
+
+Task 1: Movie Recommendation
+Recommend top 10 movies based on input movie name.
+Show results using: 
+Cosine Similarity method, and
+Euclidean Distance	
+
+
+Input: Movie name
+Required Output: List of 10 similar movies
+Data Pre-processing:
+Missing values:
+Budget - Replace by median value
+Movie title - Remove data row
+Outliers: 
+IMDB score - Remove scores < 2.5
+Budget - Remove values > 250 million (these values are in a currency other than dollar and currency unit is not provided)
+Feature Engineering: 
+Tf-idf score of genre: Each movie can belong to multiple genres. Some of these genres are very specific and can be very helpful for recommending similar movies, eg, “Space” etc.
+Jaccard similarity of “plot_keywords” and “genres”: Compute Jaccard similarity between plot_keywords and genres of query movie and other movies in the dataset. 
+Compute intersection between director and list of actors.
+ 
+Methodology: 
+Movie is represented as a vector of features and it’s euclidean distance (or cosine similarity) with all the other movie vectors is calculated. Then we return the top 10 movies (excluding the query movie).
+
+Results:
+There is no objective measure for this, since labeled dataset is not available. However, the results are pretty close to what one would expect. Euclidean distance works better (empirical observation) than cosine similarity.
+
+
+
+Task 2. Movie rating prediction (Linear Regression)
+Prediction of IMDB score of a movie given its features, using linear regression.	
+
+Methodology: 
+Calculate p-value of each input + engineered feature
+Discard input features with low p-value
+Learn a linear regression model with the remaining features to predict the IMDB rating of a movie
+Report accuracy on the test dataset.
+
+Results: 
+Plot of predicted scores vs actual scores attached. 
+Root mean square error in the rating of each movie = 0.805 (To be interpreted as the mean error made by the model in predicting the score of each movie, ie, +/-0.8. Scores go from 1 - 10)
+
+
